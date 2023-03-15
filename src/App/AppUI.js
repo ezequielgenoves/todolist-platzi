@@ -7,6 +7,7 @@ import { CreateTodoButton } from "../components/CreateTodoButton/index";
 import { TodoContext } from "../components/TodoContext";
 import { Modal } from "../components/Modal";
 import { TodoForm } from "../components/TodoForm";
+import { ThreeDots as CustomLoader } from "../components/CustomLoader";
 
 function AppUI() {
   const {
@@ -24,7 +25,11 @@ function AppUI() {
       <TodoCounter />
       <TodoSearch />
       <TodoList>
-        {loading && <p>Cargando, espera...</p>}
+        {loading && (
+          <Modal>
+            <CustomLoader />
+          </Modal>
+        )}
         {error && <p>Algo ha salido mal</p>}
         {!loading && !searchedTodos.length && <p>No hay TODOS</p>}
         {searchedTodos.map((todo) => (
@@ -39,7 +44,7 @@ function AppUI() {
       </TodoList>
       <CreateTodoButton setOpenModal={setOpenModal} />
       {!!openModal && (
-        <Modal>
+        <Modal color="">
           <TodoForm />
         </Modal>
       )}
