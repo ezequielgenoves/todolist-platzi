@@ -2,7 +2,7 @@ import "./TodoItem.css";
 
 function TodoItem(props) {
   return (
-    <li className="TodoItem">
+    <li className="TodoItem" onDoubleClick={props.editTodo}>
       <span
         className={`Icon Icon-check ${
           props.completed && "Icon-check--active "

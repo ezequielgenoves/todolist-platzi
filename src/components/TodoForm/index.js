@@ -2,12 +2,14 @@ import { useContext, useState } from "react";
 import { TodoContext } from "../TodoContext";
 import "./TodoForm.css";
 
-function TodoForm() {
-  const { setOpenModal, addTodo } = useContext(TodoContext);
-  const [newTodo, setNewTodo] = useState("");
+function TodoForm(props = null) {
+  const { setOpenModal, addTodo, editTodo } = useContext(TodoContext);
+  const [newTodo, setNewTodo] = useState(props?.todo?.text || "");
+  const isEditing = !!props?.todo?.text;
   function submitTodo(event) {
     event.preventDefault();
-    addTodo(newTodo);
+    debugger;
+    isEditing ? editTodo(props?.todo?.text, newTodo) : addTodo(newTodo);
     closeModal();
   }
   function closeModal() {

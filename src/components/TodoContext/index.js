@@ -11,9 +11,9 @@ function TodoProvider(props) {
   } = UseLocalStorage("TODOs", []);
   const [searchValue, setSearchValue] = useState("");
   const totalTodos = todos.length;
-  const todosCompleted = todos.filter((todo) => todo.completed).length;
+  const todosCompleted = todos?.filter((todo) => todo.completed).length;
   const [openModal, setOpenModal] = useState(false);
-
+  const [todoToEdit, setTodoToEdit] = useState(null);
   let searchedTodos =
     !searchValue.length > 0
       ? todos
@@ -24,16 +24,29 @@ function TodoProvider(props) {
   const onToggleCompleteTodo = (text) => {
     const index = todos.findIndex((x) => x.text === text);
     todos[index].completed = !todos[index].completed;
-    saveTodos([...todos]);
+    orderAndSave([...todos]);
   };
 
   const onDeleteTodo = (text) => {
-    saveTodos(todos.filter((x) => x.text !== text));
+    orderAndSave(todos.filter((x) => x.text !== text));
   };
 
   const addTodo = (text) => {
     const newTodo = { text, completed: false };
-    saveTodos([...todos, newTodo]);
+    orderAndSave([...todos, newTodo]);
+  };
+
+  const editTodo = (textBefore, text) => {
+    const index = todos.findIndex((x) => x.text === textBefore);
+    todos[index] = { text, completed: false };
+    orderAndSave([...todos]);
+  };
+
+  const orderAndSave = (todos) => {
+    todos.sort((x, y) => {
+      return x.completed === y.completed ? 0 : x.completed ? 1 : -1;
+    });
+    saveTodos(todos);
   };
 
   return (
@@ -52,6 +65,9 @@ function TodoProvider(props) {
         onDeleteTodo,
         openModal,
         setOpenModal,
+        todoToEdit,
+        setTodoToEdit,
+        editTodo,
       }}
     >
       {props.children}

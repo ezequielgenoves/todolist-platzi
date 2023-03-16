@@ -18,6 +18,8 @@ function AppUI() {
     searchedTodos,
     openModal,
     setOpenModal,
+    todoToEdit,
+    setTodoToEdit,
   } = useContext(TodoContext);
 
   return (
@@ -39,13 +41,17 @@ function AppUI() {
             text={todo.text}
             onComplete={() => onToggleCompleteTodo(todo.text)}
             onDelete={() => onDeleteTodo(todo.text)}
+            editTodo={() => {
+              setTodoToEdit(todo);
+              setOpenModal(true);
+            }}
           />
         ))}
       </TodoList>
       <CreateTodoButton setOpenModal={setOpenModal} />
       {!!openModal && (
-        <Modal color="">
-          <TodoForm />
+        <Modal>
+          <TodoForm todo={todoToEdit} />
         </Modal>
       )}
     </React.Fragment>

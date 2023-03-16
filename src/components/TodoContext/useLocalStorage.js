@@ -13,9 +13,10 @@ function UseLocalStorage(itemName, initialValue) {
         setError(e);
         console.log(e);
       }
-    }, 3000);
+    }, 1000);
   });
   const saveItem = (newItem) => {
+    console.log('todos ordenados', newItem)
     try {
       localStorage.setItem(itemName, JSON.stringify(newItem));
       setItem(newItem);
